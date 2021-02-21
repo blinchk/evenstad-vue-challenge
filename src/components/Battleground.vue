@@ -20,16 +20,28 @@
         </Warrior>
       </v-col>
     </v-row>
+    <v-snackbar v-model="snackbar" :timeout="timeout" absolute>
+      <v-icon color="success">mdi-sword</v-icon> <strong>Dealt damage:</strong> {{ Math.round(this.dealt_damage) }} HP to An Enemy.<br>
+      <v-icon color="error">mdi-water-alert</v-icon> <strong>Received damage:</strong> {{ Math.round(this.received_damage) }} HP from An Enemy.
+    </v-snackbar>
     <v-overlay :value="gameOver" absolute class="light">
-      <h1 v-if="heroWon">You won!</h1>
-      <h1 v-else color="success">You lost!</h1>
-      <v-btn
-          color="success"
-          @click="startOver">
-        Start Again
-      </v-btn>
-      <v-checkbox v-model="randomValues" label="With random attributes">
-      </v-checkbox>
+      <div v-if="heroWon">
+        <h1>You won!</h1>
+        <v-btn
+            color="success"
+            @click="startOver">
+          Start Again
+        </v-btn>
+      </div>
+      <div v-else>
+        <h1>You lost!</h1>
+        <v-btn
+            color="error"
+            @click="startOver">
+          Start Again
+        </v-btn>
+      </div>
+      <v-checkbox v-model="randomValues" label="With random attributes"/>
     </v-overlay>
   </v-container>
 </template>
@@ -66,7 +78,12 @@ export default {
         },
         score: 0
       },
-      randomValues: false
+      randomValues: false,
+      snackbar: false,
+      timeout: 1500,
+      message: null,
+      dealt_damage: 0,
+      received_damage: 0
     }
   },
   methods: {
@@ -86,17 +103,20 @@ export default {
     },
     calculateDamage(attacker, range) {
       let attackTypeAttribute = range === true ? attacker.attributes.accuracy : attacker.attributes.strength;
-      return attackTypeAttribute * 0.1 + (Math.random() * 50) + attacker.attributes.willpower * 0.1;
+      return attackTypeAttribute * 0.1 + (Math.random() * 25) + attacker.attributes.willpower * 0.1;
     },
     attack(attacker, range) {
       if (attacker === this.hero) {
-        this.enemy.health -= this.calculateDamage(attacker, range)
+        this.dealt_damage = this.calculateDamage(attacker, range);
+        this.enemy.health -= this.dealt_damage;
         this.enemy.health = this.bringToPositive(this.enemy.health);
         this.calculateEnemyAttack()
         this.iterateWinnersScore();
       } else if (attacker === this.enemy) {
-        this.hero.health -= this.calculateDamage(attacker, range);
+        this.received_damage = this.calculateDamage(attacker, range);
+        this.hero.health -= this.received_damage;
         this.hero.health = this.bringToPositive(this.hero.health);
+        this.snackbar = true;
       }
     },
     startOver() {
