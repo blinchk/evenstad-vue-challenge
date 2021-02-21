@@ -119,7 +119,7 @@ export default {
         this.hero.health = this.bringToPositive(this.hero.health);
       }
     },
-    initalizeRandomAttributes() {
+    initializeRandomAttributes() {
       if (this.randomValues === true) {
         for(let key in this.enemy.attributes) {
           this.hero.attributes[key] = Math.floor(Math.random() * 100);
@@ -151,7 +151,7 @@ export default {
     }
   },
   mounted() {
-    this.initalizeRandomAttributes();
+    this.initializeRandomAttributes();
   }
 }
 </script>
