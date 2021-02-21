@@ -1,7 +1,7 @@
 <template>
-    <v-card>
+    <v-card class="fill-height">
         <v-card-title>
-            {{warrior.name}}
+          {{warrior.name}}
         </v-card-title>
         <v-row class="px-2 d-flex justify-center">
             <v-card elevation="5" class="d-flex justify-center">
@@ -13,7 +13,7 @@
                 {{attribute.toUpperCase()}}
             </v-col>
             <v-col cols="7">
-                <v-progress-linear v-model="warrior.attributes[attribute]" color="blue-grey" height="25">
+                <v-progress-linear class="rounded" :value="warrior.attributes[attribute]" color="blue-grey" height="25">
                     <template v-slot:default="{ value }">
                         <strong>{{value}}</strong>
                     </template>
@@ -23,50 +23,35 @@
         <v-spacer/>
         <v-row class="px-2">
             <v-col cols="12">
-                <v-progress-linear v-model="warrior.health" color="green" height="25">
+                <v-progress-linear class="rounded" :value="warrior.health" color="green" height="25">
                     <template v-slot:default="{ value }">
-                        <strong>{{value}}</strong>
+                        <strong>{{ Math.round(value) }}</strong>
                     </template>
                 </v-progress-linear>
             </v-col>
         </v-row>
+        <v-snackbar>Hello, world!</v-snackbar>
         <v-card-actions v-if="playable">
             <v-col cols="6">
-                <v-btn block elevation="2" @click="$emit('attack-melee', warrior)">Melee</v-btn>
+                <v-btn block elevation="2" @click="$emit('attack', warrior, false)">Melee</v-btn>
             </v-col>
             <v-col cols="6">
-                <!-- TODO
-                    we need a ranged attack
-                -->
-                <v-btn block elevation="2">Ranged</v-btn>
+                <v-btn block elevation="2" @click="$emit('attack', warrior, true)">Ranged</v-btn>
             </v-col>
         </v-card-actions>
         <v-card-actions v-else>
             <v-col cols="6">
             </v-col>
         </v-card-actions>
-
-    </v-card> 
+    </v-card>
 </template>
 
 <script>
 export default {
     name: "Warrior",
-    props:{
-        /* Warrior model
-            attributes: Object,
-                key - label
-                value - value
-            health: Number,
-            name: String,
-            profilePic: String
-        */
-        warrior: Object,
-        playable: Boolean
+    props: {
+      warrior: Object,
+      playable: Boolean,
     }
 }
 </script>
-
-<style>
-
-</style>
