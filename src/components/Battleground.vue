@@ -132,6 +132,7 @@ export default {
     startOver() {
       this.enemy.health = 100;
       this.hero.health = 100;
+      this.initializeRandomAttributes();
     },
     iterateWinnersScore() {
       if (this.gameOver) {
