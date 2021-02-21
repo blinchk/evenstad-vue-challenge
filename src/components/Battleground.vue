@@ -61,9 +61,9 @@ export default {
         health: 100,
         profilePic: require('../assets/good.png'),
         attributes: {
-          strength: 60,
-          accuracy: 20,
-          willpower: 60
+          strength: 0,
+          accuracy: 0,
+          willpower: 0
         },
         score: 0,
         last_damage: 0
@@ -73,9 +73,9 @@ export default {
         profilePic: require('../assets/robot.png'),
         health: 100,
         attributes: {
-          strength: 90,
-          accuracy: 40,
-          willpower: 10
+          strength: 0,
+          accuracy: 0,
+          willpower: 0
         },
         score: 0,
         last_damage: 0
@@ -149,7 +149,9 @@ export default {
     heroWon: function () {
       return this.hero.health > this.enemy.health;
     }
+  },
+  mounted() {
+    this.initalizeRandomAttributes();
   }
-
 }
 </script>
