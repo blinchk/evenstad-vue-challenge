@@ -21,8 +21,10 @@
       </v-col>
     </v-row>
     <v-snackbar v-model="snackbar" :timeout="timeout" absolute>
-      <v-icon color="success">mdi-sword</v-icon> <strong>Dealt damage:</strong> {{ Math.round(this.hero.last_damage) }} HP to An Enemy.<br>
-      <v-icon color="error">mdi-water-alert</v-icon> <strong>Received damage:</strong> {{ Math.round(this.enemy.last_damage) }} HP from An Enemy.
+      <v-icon color="success">mdi-sword</v-icon>
+      <strong>Dealt damage:</strong> {{ Math.round(this.hero.last_damage) }} HP to An Enemy.<br>
+      <v-icon color="error">mdi-water-alert</v-icon>
+      <strong>Received damage:</strong> {{ Math.round(this.enemy.last_damage) }} HP from An Enemy.
     </v-snackbar>
     <v-overlay :value="gameOver" absolute class="light">
       <div v-if="heroWon">
@@ -121,7 +123,7 @@ export default {
     },
     initializeRandomAttributes() {
       if (this.randomValues === true) {
-        for(let key in this.enemy.attributes) {
+        for (let key in this.enemy.attributes) {
           this.hero.attributes[key] = Math.floor(Math.random() * 100);
           this.enemy.attributes[key] = Math.floor(Math.random() * 100);
         }
@@ -130,7 +132,6 @@ export default {
     startOver() {
       this.enemy.health = 100;
       this.hero.health = 100;
-
     },
     iterateWinnersScore() {
       if (this.gameOver) {
