@@ -1,5 +1,5 @@
 <template>
-    <v-card class="fill-height">
+    <v-card>
         <v-card-title>
             {{warrior.name}}
         </v-card-title>
