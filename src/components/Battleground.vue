@@ -22,9 +22,9 @@
     </v-row>
     <v-snackbar v-model="snackbar" :timeout="timeout" absolute>
       <v-icon color="success">mdi-sword</v-icon>
-      <strong>Dealt damage:</strong> {{ Math.round(this.hero.last_damage) }} HP to An Enemy.<br>
+      <strong>Dealt damage:</strong> {{ Math.round(this.hero.last_attack.damage) }} HP from <span v-if="this.hero.last_attack.type">range</span><span v-else>melee</span> attack to An Enemy.<br>
       <v-icon color="error">mdi-water-alert</v-icon>
-      <strong>Received damage:</strong> {{ Math.round(this.enemy.last_damage) }} HP from An Enemy.
+      <strong>Received damage:</strong> {{ Math.round(this.enemy.last_attack.damage) }} HP from <span v-if="this.enemy.last_attack.type">range</span><span v-else>melee</span> attack from An Enemy.
     </v-snackbar>
     <v-overlay :value="gameOver" absolute class="light">
       <div v-if="heroWon">
@@ -68,7 +68,10 @@ export default {
           willpower: 0
         },
         score: 0,
-        last_damage: 0
+        last_attack: {
+          damage: 0,
+          type: false
+        }
       },
       enemy: {
         name: "An Enemy",
@@ -80,7 +83,10 @@ export default {
           willpower: 0
         },
         score: 0,
-        last_damage: 0
+        last_attack: {
+          damage: 0,
+          type: false
+        }
       },
       randomValues: true,
       snackbar: false,
@@ -109,15 +115,17 @@ export default {
     },
     attack(attacker, range) {
       if (attacker === this.hero) {
-        attacker.last_damage = this.calculateDamage(attacker, range);
-        this.enemy.health -= attacker.last_damage;
+        attacker.last_attack.damage = this.calculateDamage(attacker, range);
+        attacker.last_attack.type = range;
+        this.enemy.health -= attacker.last_attack.damage;
         this.enemy.health = this.bringToPositive(this.enemy.health);
         this.calculateEnemyAttack();
         this.iterateWinnersScore();
         this.snackbar = true;
       } else if (attacker === this.enemy) {
-        attacker.last_damage = this.calculateDamage(attacker, range);
-        this.hero.health -= attacker.last_damage;
+        attacker.last_attack.damage = this.calculateDamage(attacker, range);
+        attacker.last_attack.type = range;
+        this.hero.health -= attacker.last_attack.damage;
         this.hero.health = this.bringToPositive(this.hero.health);
       }
     },
