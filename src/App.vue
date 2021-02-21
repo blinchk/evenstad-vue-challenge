@@ -1,21 +1,19 @@
 <template>
   <v-app>
     <v-app-bar
-      app
-      color="#FFF"
-      dark
-    >
+        app
+        color="#FFF"
+        dark>
       <div class="d-flex align-center">
         <v-img
-          alt="Evenstad Logo"
-          class="shrink mr-2"
-          contain
-          :src="require('./assets/logo_challenge.png')"
-          transition="scale-transition"
-          width="200"
+            :src="require('./assets/logo_challenge.png')"
+            alt="Evenstad Logo"
+            class="shrink mr-2"
+            contain
+            transition="scale-transition"
+            width="200"
         />
       </div>
-
       <v-spacer></v-spacer>
     </v-app-bar>
 
